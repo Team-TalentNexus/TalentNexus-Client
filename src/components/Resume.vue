@@ -84,6 +84,7 @@
 
 <script>
 import request from '@/utils/request';
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -154,7 +155,6 @@ export default {
       this.form.workExperiences.splice(index, 1);
     },
     submitForm() {
-      console.log(this.userToken)
       request.post('http://localhost:8081/seeker/resume', this.basicInformation, {
         headers: {
           'Content-Type': 'application/json',
