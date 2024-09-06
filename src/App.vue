@@ -1,10 +1,21 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
+    <el-submenu index="3">
+      <template slot="title">
+        <i class="el-icon-s-custom"></i>
+        <span>注册登录</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/login">登录</el-menu-item>
+        <el-menu-item index="/register">注册</el-menu-item>
+        <el-menu-item index="/userInfo">用户信息</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
+    <el-menu-item index="/employeeHome">
+      <i class="el-icon-menu"></i>
+      <span slot="title">求职者首页</span>
+    </el-menu-item>
   </div>
 </template>
 

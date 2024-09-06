@@ -1,0 +1,175 @@
+<template>
+  <el-card>
+    <el-steps :active="active" align-center finish-status="success">
+      <el-step title="个人信息"></el-step>
+      <el-step title="项目经历"></el-step>
+      <el-step title="工作经历"></el-step>
+    </el-steps>
+
+    <!-- 个人信息 -->
+    <div class="information" v-if="active === 0">
+      <el-form ref="basicInformation" :model="basicInformation" label-width="80px">
+        <el-form-item label="标题">
+          <el-input v-model="basicInformation.title"></el-input>
+        </el-form-item>
+        <el-form-item label="自我简介">
+          <el-input type="textarea" v-model="basicInformation.summary"></el-input>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <!-- 项目经历 -->
+    <div class="projectExperience" v-if="active === 1">
+      <el-form :model="form" ref="dynamicForm" label-width="120px">
+        <div v-for="(experience, index) in form.projectExperiences" :key="index" class="form-group">
+          <el-form-item :label="'项目名称 ' + (index + 1)">
+            <el-input v-model="experience.projectName"></el-input>
+          </el-form-item>
+          <el-form-item :label="'描述 ' + (index + 1)">
+            <el-input type="textarea" v-model="experience.description"></el-input>
+          </el-form-item>
+          <el-form-item :label="'开始日期 ' + (index + 1)">
+            <el-date-picker v-model="experience.startDate" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item :label="'结束日期 ' + (index + 1)">
+            <el-date-picker v-model="experience.endDate" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item :label="'角色 ' + (index + 1)">
+            <el-input v-model="experience.role"></el-input>
+          </el-form-item>
+          <el-form-item :label="'成就 ' + (index + 1)">
+            <el-input type="textarea" v-model="experience.achievements"></el-input>
+          </el-form-item>
+          <el-button type="danger" @click="removeExperience(index)">删除</el-button>
+          <el-divider></el-divider>
+        </div>
+        <el-button type="primary" @click="addExperience">添加项目经历</el-button>
+      </el-form>
+    </div>
+
+    <!-- 工作经历 -->
+    <div class="workExperience" v-if="active === 2">
+      <el-form :model="form" ref="workExperienceForm" label-width="120px">
+        <div v-for="(work, index) in form.workExperiences" :key="index" class="form-group">
+          <el-form-item :label="'公司名称 ' + (index + 1)">
+            <el-input v-model="work.company"></el-input>
+          </el-form-item>
+          <el-form-item :label="'职位 ' + (index + 1)">
+            <el-input v-model="work.position"></el-input>
+          </el-form-item>
+          <el-form-item :label="'开始日期 ' + (index + 1)">
+            <el-date-picker v-model="work.startDate" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item :label="'结束日期 ' + (index + 1)">
+            <el-date-picker v-model="work.endDate" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item :label="'工作描述 ' + (index + 1)">
+            <el-input type="textarea" v-model="work.description"></el-input>
+          </el-form-item>
+          <el-button type="danger" @click="removeWorkExperience(index)">删除</el-button>
+          <el-divider></el-divider>
+        </div>
+        <el-button type="primary" @click="addWorkExperience">添加工作经历</el-button>
+      </el-form>
+    </div>
+
+    <!-- 底部按钮 -->
+    <div class="deployBtn">
+      <el-button style="margin-top: 12px;" @click="prev" v-if="active === 1 || active === 2">上一步</el-button>
+      <el-button style="margin-top: 12px;" @click="next" v-if="active === 0 || active === 1">下一步</el-button>
+      <el-button style="margin-top: 12px;" @click="submitForm" v-if="active === 2">提交</el-button>
+    </div>
+  </el-card>
+</template>
+
+<script>
+import request from '@/utils/request';
+export default {
+  data() {
+    return {
+      active: 0,
+      basicInformation: {
+        title: '',
+        summary: ''
+      },
+      form: {
+        projectExperiences: [
+          {
+            projectName: '',
+            description: '',
+            startDate: '',
+            endDate: '',
+            role: '',
+            achievements: ''
+          }
+        ],
+        workExperiences: [
+          {
+            company: '',
+            position: '',
+            startDate: '',
+            endDate: '',
+            description: ''
+          }
+        ]
+      }
+    };
+  },
+
+  methods: {
+    next() {
+      if (this.active < 2) {
+        this.active++;
+      }
+    },
+    prev() {
+      if (this.active > 0) {
+        this.active--;
+      }
+    },
+    addExperience() {
+      this.form.projectExperiences.push({
+        projectName: '',
+        description: '',
+        startDate: '',
+        endDate: '',
+        role: '',
+        achievements: ''
+      });
+    },
+    removeExperience(index) {
+      this.form.projectExperiences.splice(index, 1);
+    },
+    addWorkExperience() {
+      this.form.workExperiences.push({
+        company: '',
+        position: '',
+        startDate: '',
+        endDate: '',
+        description: ''
+      });
+    },
+    removeWorkExperience(index) {
+      this.form.workExperiences.splice(index, 1);
+    },
+    submitForm() {
+      // 这里可以根据需要验证和提交表单数据
+      this.$refs.workExperienceForm.validate((valid) => {
+        if (valid) {
+          alert('工作经历表单有效!');
+          // 提交逻辑
+        } else {
+          alert('表单无效，请检查输入.');
+          return false;
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style scoped>
+.form-group {
+  margin-bottom: 20px;
+}
+</style>
