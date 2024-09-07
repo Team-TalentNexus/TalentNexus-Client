@@ -3,7 +3,6 @@
       <el-main>
         <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
           <el-tab-pane label="全部" name="first">
-            <!-- 使用 router-view 渲染子路由内容 -->
             <router-view></router-view>
           </el-tab-pane>
           <el-tab-pane label="正在招" name="second">

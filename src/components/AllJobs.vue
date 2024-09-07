@@ -42,6 +42,7 @@
 
 <script>
 import request from '@/utils/request';
+
 export default {
   data() {
     return {
@@ -71,7 +72,6 @@ export default {
   methods: {
     // 获取职位数据
     fetchJobData() {
-      // 发送 GET 请求获取数据，包含当前页号和每页条数
       request.get('http://localhost:8081/company/position', {
         params: {
           page: this.currentPage,
@@ -83,7 +83,7 @@ export default {
         }
       })
         .then(response => {
-          console.log(response)
+          // 假设响应数据中包含 total 和 jobs 两个字段
           this.jobList = response.data;  // 将获取的数据赋值给 jobList
         })
         .catch(error => {
@@ -91,11 +91,9 @@ export default {
         });
     },
     // 跳转到职位详情页面
-    methods: {
-      goToDetail(id) {
-        // 跳转到详情页面，并传递 id
-        this.$router.push({ name: 'JobDetail', params: { id } });
-      }
+    goToDetail(id) {
+      // 跳转到详情页面，并传递 id
+      this.$router.push({ name: 'JobDetail', params: { id } });
     },
     // 处理分页变化
     handlePageChange(newPage) {

@@ -7,7 +7,6 @@ import Test from '@/components/Test.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import UserInfoView from '@/views/UserInfoView.vue'
-import EmployeeHomeView from '@/views/EmployeeHomeView.vue'
 import Position from '@/components/Position.vue'
 import Company from '@/components/Company.vue'
 import Jobs from '@/views/Jobs.vue'
@@ -15,13 +14,39 @@ import AllJobs from '@/components/AllJobs.vue'
 import ActiveJobs from '@/components/ActiveJobs.vue'
 import CompletedJobs from '@/components/CompletedJobs.vue'
 import CLogin from '@/views/CLoginView.vue'
+import JobDetail from '@/components/JobDetail.vue'
+import CRegisterView from '@/views/CRegisterView.vue'
+import Seeker from '@/views/Seeker.vue'
+import JobList from '@/components/JobList.vue'
+import ResumeManagement from '@/components/ResumeManagement.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path:'/',
-    name:'home',
-    component:Home,
+    path: '/',
+    name: 'home',
+    component: Home,
+  },
+  {
+    path: '/seeker',
+    component: Seeker,
+    children: [
+      {
+        path: 'joblist',
+        component: JobList,
+      },
+      {
+        path: 'resume_management',
+        component: ResumeManagement
+      },
+      {
+
+        path: 'resume_management/add_resume',
+        name: 'CreateResume',
+        component: Resume,
+
+      },
+    ]
   },
   {
     path: '/company',
@@ -34,6 +59,7 @@ const routes = [
           {
             path: '', // 默认显示的子路由，可以是 "全部"的内容
             component: AllJobs
+
           },
           {
             path: 'active', // 对应正在招的子路由
@@ -44,6 +70,22 @@ const routes = [
             component: CompletedJobs
           }
         ]
+      },
+      {
+        path: '/jobs/detail/:id',
+        name: 'JobDetail',
+        component: JobDetail,
+        props: true  // 允许通过 props 传递路由参数
+      },
+      {
+        path: '/jobs/detail/resumedetail/:id',
+        name: 'ResumeDetail',
+        component: () => import('@/components/ResumeDetail.vue'),
+        props: true,
+      },
+      {
+        path: 'position',
+        component: Position,
       }
     ]
   },
@@ -52,15 +94,11 @@ const routes = [
     name: 'Publish_Job',
     component: Publish_Job,
   },
+
   {
-    path: '/seeker/resume',
-    name: 'Resume',
-    component: Resume,
-  },
-  {
-    path:'/test',
-    name:'Test',
-    component:Test,
+    path: '/test',
+    name: 'Test',
+    component: Test,
   },
   {
     path: '/login',
@@ -73,9 +111,14 @@ const routes = [
     component: RegisterView
   },
   {
-    path:'/cLogin',
-    name:'cLogin',
-    component:CLogin
+    path: '/cLogin',
+    name: 'cLogin',
+    component: CLogin
+  },
+  {
+    path: '/cRegister',
+    naem: 'cRegister',
+    component: CRegisterView,
   },
   {
     path: '/userInfo',
@@ -83,22 +126,10 @@ const routes = [
     component: UserInfoView
   },
   {
-    path: '/employeeHome',
-    name: 'employeeHome',
-    component: EmployeeHomeView
+    path: '/position',
+    name: 'position',
+    component: Position
   },
-  {
-    path:'/position',
-    name:'position',
-    component:Position
-  },
-  {
-    path: '/jobs/detail/:id',
-    name: 'JobDetail',
-    component: () => import('@/components/JobDetail.vue'), // 使用动态加载
-    props: true  // 允许通过 props 传递路由参数
-  }
-  
 ]
 
 const router = new VueRouter({

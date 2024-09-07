@@ -51,7 +51,7 @@ export default {
                         this.$message.success('登录成功');
                         localStorage.setItem('token', res.data.data);
                         localStorage.setItem('user', JSON.stringify(res.data.data.user));
-                        this.$router.push('/employeeHome');
+                        this.$router.push('/seeker');
                     } else {
                         this.$message.error(res.data.msg);
                     }
