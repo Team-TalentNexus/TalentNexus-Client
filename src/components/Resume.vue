@@ -209,13 +209,12 @@ export default {
           }).then(res => {
             if (res.code === 200) {
               this.$message.success(`工作经历 "${work.companyName}" 提交成功`);
+              this.$router.push('/seeker/resume_management');
             } else {
               this.$message.error(`工作经历 "${work.companyName}" 提交失败: }`);
             }
           });
         } catch (error) {
-          console.log(res.code);
-          console.log(error);
           this.$message.error(`提交工作经历 "${work.companyName}" 时出错`);
         }
       }

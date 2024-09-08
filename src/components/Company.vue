@@ -12,9 +12,9 @@
           <i class="el-icon-document"></i>
           <span slot="title">招聘管理</span>
         </el-menu-item>
-        <el-menu-item index="/search">
-          <i class="el-icon-search"></i>
-          <span slot="title">搜索</span>
+        <el-menu-item index="/company/position">
+          <i class="el-icon-circle-plus-outline"></i>
+          <span slot="title">新增招聘</span>
         </el-menu-item>
       </el-menu>
     </el-aside>

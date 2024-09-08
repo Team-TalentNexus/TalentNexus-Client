@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         goRegister() {
-            this.$router.push('/register');
+            this.$router.push('/cRegister');
         },
         login() {
             if (this.user.username == '' || this.user.password == '') {
