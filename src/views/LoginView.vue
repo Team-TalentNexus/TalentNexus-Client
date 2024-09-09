@@ -24,7 +24,7 @@ jp<template>
 
 <script>
 import axios from 'axios';
-
+import request from '@/utils/request';
 
 export default {
     data() {
@@ -45,13 +45,11 @@ export default {
                 this.$message.error('用户名或密码不能为空');
                 return;
             } else {
-                axios.post('http://localhost:8081/seeker/login', this.user).then(res => {
-                    res.data
-                    if (res.data.code == 200) {
+                request.post('http://localhost:8081/seeker/login', this.user).then(res => {
+                    if (res.code == 200) {
                         this.$message.success('登录成功');
-                        localStorage.setItem('token', res.data.data);
-                        localStorage.setItem('user', JSON.stringify(res.data.data.user));
-                        this.$router.push('/seeker');
+                        localStorage.setItem('token', res.data);
+                        this.$router.push('/seeker/home');
                     } else {
                         this.$message.error(res.data.msg);
                     }
