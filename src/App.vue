@@ -1,32 +1,40 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
-<style lang="less">
+<script>
+export default {
+  name: 'App',
+};
+</script>
+
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  text-align: center;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+header {
+  background-color: #3498db;
+  padding: 20px;
+  color: white;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+header h1 {
+  margin: 0;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+footer {
+  background-color: #2ecc71;
+  color: white;
+  padding: 10px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }
 </style>
