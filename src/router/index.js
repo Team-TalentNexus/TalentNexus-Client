@@ -21,6 +21,9 @@ import JobList from '@/components/JobList.vue'
 import ResumeManagement from '@/components/ResumeManagement.vue'
 Vue.use(VueRouter)
 
+
+
+
 const routes = [
   {
     path: '/',
@@ -135,5 +138,70 @@ const routes = [
 const router = new VueRouter({
   routes
 })
+
+
+// 添加一个 JWT 解析工具来解析 token
+function parseJwt(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = decodeURIComponent(atob(base64Url).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(base64);
+  } catch (error) {
+    return null;
+  }
+}
+
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  console.log(to);
+  const token = localStorage.getItem('token'); // 从 localStorage 获取 JWT token
+  if (token) {
+    if(to.path === '/') {
+      next();
+    }
+    const decodedToken = parseJwt(token); // 解析 token
+
+    if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
+      const userRole = decodedToken.role; // 从 token 中获取用户角色
+
+      // 控制不同用户的页面访问
+      if (to.path.startsWith('/company') && userRole !== 'Company') {
+        if (to.path !== '/403') {
+          next({ path: '/403' });
+        } else {
+          next();
+        }
+      } else if (to.path.startsWith('/seeker') && userRole !== 'Seeker') {
+        if (to.path !== '/403') {
+          next({ path: '/403' });
+        } else {
+          next();
+        }
+      } else {
+        next(); // 用户有权限访问该页面
+      }
+    } else {
+      // token 过期或无效，重定向到登录页面
+      if (to.path !== '/login') {
+        next({ path: '/login' });
+      } else {
+        next();
+      }
+    }
+  } else if (
+    to.path !== '/login' && 
+    to.path !== '/register' && 
+    to.path !== '/cLogin' && 
+    to.path !== '/cRegister' && 
+    to.path !== '/' // 允许访问首页
+  ) {
+    // 未登录用户访问受保护页面，重定向到登录页面
+    next({ path: '/login' });
+  } else {
+    next(); // 允许访问不需要身份验证的页面
+  }
+});
 
 export default router
