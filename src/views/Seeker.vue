@@ -4,7 +4,7 @@
       <el-aside class="aside-class" width="200px">
         <el-menu :default-active="$route.path" router class="el-menu-vertical-demo" @open="handleOpen"
           @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
-          <el-menu-item index="/">
+          <el-menu-item index="/seeker/home">
             <i class="el-icon-menu"></i>
             <span slot="title">系统首页</span>
           </el-menu-item>

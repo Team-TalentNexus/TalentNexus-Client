@@ -49,7 +49,7 @@ export default {
                     if (res.code == 200) {
                         this.$message.success('登录成功');
                         localStorage.setItem('token', res.data);
-                        this.$router.push('/company');
+                        this.$router.push('/company/home');
                     } else {
                         this.$message.error(res.message);
                     }

@@ -19,11 +19,10 @@ import CRegisterView from '@/views/CRegisterView.vue'
 import Seeker from '@/views/Seeker.vue'
 import JobList from '@/components/JobList.vue'
 import ResumeManagement from '@/components/ResumeManagement.vue'
+import CompanyHome from "@/components/CompanyHome.vue"
+import SeekerHome from '@/components/SeekerHome.vue'
 import Forbidden from '@/views/403.vue' // 引入 403 页面
 Vue.use(VueRouter)
-
-
-
 
 const routes = [
   {
@@ -55,6 +54,10 @@ const routes = [
         component: Resume,
 
       },
+      {
+        path:'home',
+        component:SeekerHome,
+      }
     ]
   },
   {
@@ -95,7 +98,11 @@ const routes = [
       {
         path: 'position',
         component: Position,
-      }
+      },
+      {
+        path:'home',
+        component:CompanyHome,
+      },
     ]
   },
   {
