@@ -19,6 +19,7 @@ import CRegisterView from '@/views/CRegisterView.vue'
 import Seeker from '@/views/Seeker.vue'
 import JobList from '@/components/JobList.vue'
 import ResumeManagement from '@/components/ResumeManagement.vue'
+import Forbidden from '@/views/403.vue' // 引入 403 页面
 Vue.use(VueRouter)
 
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+  },
+  {
+    path: '/403',
+    name: 'forbidden',
+    component: Forbidden
   },
   {
     path: '/seeker',
