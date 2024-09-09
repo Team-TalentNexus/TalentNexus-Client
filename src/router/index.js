@@ -164,13 +164,19 @@ router.beforeEach((to, from, next) => {
   console.log(to);
   const token = localStorage.getItem('token'); // 从 localStorage 获取 JWT token
   if (token) {
-    if(to.path === '/') {
-      next();
-    }
+    
     const decodedToken = parseJwt(token); // 解析 token
 
     if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
       const userRole = decodedToken.role; // 从 token 中获取用户角色
+
+      if(to.path === '/') {
+        if(userRole === 'Seeker') {
+          next({ path: '/seeker/home' });
+        } else {
+          next({ path: '/company/home' })
+        }
+      }
 
       // 控制不同用户的页面访问
       if (to.path.startsWith('/company') && userRole !== 'Company') {
